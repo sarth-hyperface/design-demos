@@ -75,7 +75,7 @@
         },
         {
             "id": "stg_aidg67wde2jd",
-            "stageName": "Stage 3: OTP validation",
+            "stageName": "Stage 4: Response from bank",
             "journeyId": "jrny_ajfbaifb",
             "stageType": "COMPUTE",
             "action": {
@@ -85,15 +85,40 @@
                 "interval": "PT24H",
                 "pollingSource": {
                     "sourceType": "FILE_DATA",
-                    "fileDataJsonPath": "isApproved"
+                    "fileDataJsonPath": "isApproved",
+                    "keyInMetadata": "isOsToEmiApproved"
                 },
                 "completionCondition": {
-                    "targetValue": true,
-                    "filterType": "EQ"
+                    "type": "NOT_NULL"
                 }
             },
             "nextStageId": "stg_okap1wio52hed",
             "timeout": "PT120H"
+        },
+        {
+            "id": "stg_dyia4dajsd2eyjd",
+            "stageName": "Stage 5: Condition node",
+            "journeyId": "jrny_ajfbaifb",
+            "stageType": "CONDITION",
+            "conditions": [
+                {
+                    "resultVariablePathInMetadata": "isOsToEmiApproved",
+                    "filter": {
+                        "type": "EQ",
+                        "targetValue": true
+                    },
+                    "nextStageId": "stg_okap1wio52hed"
+                },
+                {
+                    "resultVariablePathInMetadata": "isOsToEmiApproved",
+                    "filter": {
+                        "type": "EQ",
+                        "targetValue": false
+                    },
+                    "nextStageId": "stg_sdbhb21wf19ef"
+                }
+            ],
+            "defaultNextStageId": "stg_sdbhb21wf19ef"
         },
         {
             "id": "stg_okap1wio52hed",
