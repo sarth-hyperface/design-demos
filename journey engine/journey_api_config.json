@@ -1,0 +1,25 @@
+{
+    "apiConfigs": [
+        {
+            "apiName" : "IB_GET_ACCOUNT_DETAILS",
+            "baseUrl": "https://api.hyperface.co",
+            "path": "/hf-data/account",
+            "httpMethod": "GET",
+            "headers": [
+                {
+                    "Content-type": "application/json"
+                }
+            ],
+            "isJourneyDataFetchApi": true,
+            "queryParams": [
+                {
+                    "key": "accountId",
+                    "isPlaceholder": true,
+                    "type": "string",
+                    "staticValue": null
+                }
+            ],
+            "requestBodyMap": null
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+    "dbLookupConfigs": [
+        {
+            "fieldName": "CUSTOMER_FIRST_NAME",
+            "databaseName": "REDSHIFT",
+            "tableName": "customer",
+            "dataType": "string",
+            "jsonKeyPath": null
+        }
+    ]
+}
