@@ -1,0 +1,113 @@
+{
+    "stages" : [
+        {
+            "id": "stg_jdhiabfsi",
+            "stageName": "Stage 1: Entry stage",
+            "journeyId": "jrny_ajfbaifb",
+            "stageType": "ENTRY",
+            "dataFetchDisplayField": {
+                "parameters": [
+                    {
+                        "key": "accountId",
+                        "source": {
+                            "sourceType": "CONTEXT_DATA",
+                            "contextDataKey": "ACCOUNT_ID"
+                        }
+                    },
+                    {
+                        "key": "firstName",
+                        "source": {
+                            "sourceType": "DATA_WAREHOUSE_LOOKUP",
+                            "dbFieldName": "CUSTOMER_FIRST_NAME"
+                        } 
+                    }
+                ]
+            },
+            "nextStageId": "stg_jabfhsvfgav",
+            "timeout": "PT24H"
+        },
+        {
+            "id": "stg_jabfhsvfgav",
+            "stageName": "Stage 2: OS to EMI form submit",
+            "journeyId": "jrny_ajfbaifb",
+            "stageType": "COMPUTE",
+            "action": {
+                "name": "Form input from user",
+                "trigger": "ON_SUBMIT",
+                "actionType": "USER_INPUT",
+                "requiredInputFields": [
+                    {
+                        "keyPath": "osToEmiAmount",
+                        "key": "OS_TO_EMI_AMOUNT",
+                        "dataType": "BIG_DECIMAL"
+                    }
+                ],
+                "onSubmitOperation" : {
+                    "operationType": "INSERT_TO_FILE_TABLE",
+                    "inputFieldsToAdd" : [
+                        {
+                            "keyInFileJson": "osToEmiAmount",
+                            "inputField": {
+                                "keyPath": "osToEmiAmount",
+                                "dataType": "BIG_DECIMAL"
+                            }
+                        }
+                    ]
+                }
+            },
+            "nextStageId": "stg_ashf13b8dvod",
+            "timeout": "PT24H"
+        },
+        {
+            "id": "stg_ashf13b8dvod",
+            "stageName": "Stage 3: OTP validation",
+            "journeyId": "jrny_ajfbaifb",
+            "stageType": "COMPUTE",
+            "action": {
+                "name": "otp validation from F/E",
+                "trigger": "CALLBACK",
+                "actionType": "CALLBACK",
+                "eventUpdateType": "FRONTEND_OTP_VERIFICATION_RESPONSE",
+                "responseToMetadataMapping": null
+            },
+            "nextStageId": "stg_aidg67wde2jd",
+            "timeout": "PT24H"
+        },
+        {
+            "id": "stg_aidg67wde2jd",
+            "stageName": "Stage 3: OTP validation",
+            "journeyId": "jrny_ajfbaifb",
+            "stageType": "COMPUTE",
+            "action": {
+                "name": "Awaiting response from Bank",
+                "trigger": "POLLING",
+                "actionType": "POLLING",
+                "interval": "PT24H",
+                "pollingSource": {
+                    "sourceType": "FILE_DATA",
+                    "fileDataJsonPath": "isApproved"
+                },
+                "completionCondition": {
+                    "targetValue": true,
+                    "filterType": "EQ"
+                }
+            },
+            "nextStageId": "stg_okap1wio52hed",
+            "timeout": "PT120H"
+        },
+        {
+            "id": "stg_okap1wio52hed",
+            "stageName" : "Stage 4: End stage",
+            "journeyId": "jrny_ajfbaifb",
+            "stageType": "TERMINAL",
+            "isSuccessStage": true
+        },
+        {
+            "id": "stg_sdbhb21wf19ef",
+            "stageName" : "General drop off stage",
+            "journeyId": "jrny_ajfbaifb",
+            "stageType": "TERMINAL",
+            "isSuccessStage": false
+        }
+    ]
+}
