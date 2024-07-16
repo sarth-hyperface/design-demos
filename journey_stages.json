@@ -65,7 +65,7 @@
             "stageType": "COMPUTE",
             "action": {
                 "name": "otp validation from F/E",
-                "trigger": "CALLBACK",
+                "trigger": "FRONTEND_CALLBACK",
                 "actionType": "CALLBACK",
                 "eventUpdateType": "FRONTEND_OTP_VERIFICATION_RESPONSE",
                 "responseToMetadataMapping": null
