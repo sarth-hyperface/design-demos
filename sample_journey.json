@@ -1,0 +1,10 @@
+{
+    "journey": {
+        "id": "jrny_ajfbaifb",
+        "name": "Outstanding to EMI",
+        "issuerId": "bank_sjdbiw1qiehfu",
+        "status": "ACTIVE",
+        "activeFrom": "2024-06-01",
+        "activeTo": "2024-09-01"
+    }
+}
